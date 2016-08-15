@@ -17,11 +17,11 @@ end
 
 class MultitestChecker < Mumukit::Metatest::Checker
   def check_status(result, status)
-    raise "expected status to be #{status} but was #{result[1]}" unless result[1] == status
+    raise "tests should have #{status}, but #{result[1]}" unless result[1] == status.to_sym
   end
 
   def check_message(result, message)
-    raise "expected message to include #{message}" unless result[0].include message
+    raise "expected message #{result[0]} to include #{message}" unless result[0].include message
   end
 end
 

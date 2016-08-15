@@ -8,11 +8,9 @@ class MinitestTestHook < Mumukit::Templates::FileHook
   end
 
   def compile_file_content(request)
-    r = {'test' => YAML.load(request.test),
+    {'test' => YAML.load(request.test),
      'extra' => request.extra,
      'content' => request.content}.to_yaml
-    puts r
-    r
   end
 
   def command_line(filename)
