@@ -1,1 +1,1 @@
-require_relative '../lib/minitest_server'
+require_relative '../lib/minitest_runner'
