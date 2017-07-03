@@ -1,6 +1,7 @@
 require 'yaml'
 class MinitestQueryHook < Mumukit::Templates::FileHook
   isolated true
+  line_number_offset 2, include_extra: true
 
   def tempfile_extension
     '_test.yml'
@@ -20,16 +21,10 @@ class MinitestQueryHook < Mumukit::Templates::FileHook
 
   def post_process_file(file, result, status)
     if result =~ /^.+\n\n(# Running\:\n\n.+?\n\n).+?\n\n(.+)$/m
-      [Mumukit::OutputFormatter.hide_tempfile_references("#{$1}#{$2}", tempfile_extension), status]
+      ["#{$1}#{$2}", status]
     else
       super
     end
   end
 end
 
-
-module Mumukit::OutputFormatter
-  def self.hide_tempfile_references(code, suffix)
-    code.gsub(/\/tmp\/mumuki\.compile(.*)#{suffix}/, "mumuki#{suffix}")
-  end
-end
