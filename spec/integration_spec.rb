@@ -10,6 +10,32 @@ describe 'runner' do
   end
   after(:all) { Process.kill 'TERM', @pid }
 
+  it 'can run passing queries' do
+    response = bridge.run_query!(
+      query: 'rake test',
+      extra: '',
+      content: %q{
+  describe 'true' do
+    it { true.must_equal true }
+  end
+})
+    expect(response).to eq result: "# Running:\n\n.\n\n1 runs, 1 assertions, 0 failures, 0 errors, 0 skips\n",
+                           status: :passed
+  end
+
+  it 'can run errored queries' do
+    response = bridge.run_query!(
+      query: 'ls',
+      extra: '',
+      content: %q{
+  describe 'true' do
+    it { true.must_equal true }
+  end
+})
+    expect(response).to eq result: "Unrecognized command. Please try rake test",
+                           status: :errored
+  end
+
   it 'passes when the test covers all scenarios' do
     response = bridge.run_tests!(test: %q{
 examples:

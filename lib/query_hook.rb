@@ -7,6 +7,10 @@ class MinitestQueryHook < Mumukit::Templates::FileHook
   end
 
   def compile_file_content(request)
+    if request.query.strip != 'rake test'
+      raise Mumukit::CompilationError, t(:unrecognized_command)
+    end
+
     "require 'minitest/autorun'\n#{request.extra}\n#{request.content}"
   end
 
