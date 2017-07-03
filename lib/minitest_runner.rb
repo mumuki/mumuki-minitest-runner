@@ -9,4 +9,5 @@ Mumukit.configure do |config|
 end
 
 require_relative './metadata_hook'
+require_relative './query_hook'
 require_relative './test_hook'
